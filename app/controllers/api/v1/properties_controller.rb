@@ -1,11 +1,12 @@
 module Api
   module V1
     class PropertiesController < ApplicationController
+      # before_action: :authorize_access_request!
       before_action :set_property, only: [:show, :update, :destroy]
 
       # GET /properties
       def index
-        @properties = Property.all
+        @properties = current_user.records.
 
         render json: @properties
       end
@@ -17,7 +18,7 @@ module Api
 
       # POST /properties
       def create
-        @property = Property.new(property_params)
+        @property = current_user.properties.build(property_params)
 
         if @property.save
           render json: @property, status: :created, location: @property
@@ -43,12 +44,12 @@ module Api
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_property
-          @property = Property.find(params[:id])
+          @property = current_user.properties.find(params[:id])
         end
 
         # Only allow a trusted parameter "white list" through.
         def property_params
-          params.require(:property).permit(:name, :address, :city, :postcode, :user_id)
+          params.require(:property).permit(:name, :address, :city, :postcode)
         end
     end
   end

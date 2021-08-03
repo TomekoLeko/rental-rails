@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+/* eslint-disable */
+
 const API_URL = 'http://localhost:3000'
 
 const securedAxiosInstance = axios.create({
